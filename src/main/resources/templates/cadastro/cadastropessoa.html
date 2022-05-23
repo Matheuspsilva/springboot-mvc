@@ -2,22 +2,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Insert title here</title>
+ <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>SpringBootMvc - Cadastro Pessoa</title>
 </head>
 	<body>
+
 		<h1>Cadastro Pessoa</h1>
-		<form action="pessoa" method="POST">
+		<form action="pessoa" method="POST" th:object="${pessoaobj}">
+			<input name="id" th:field="*{id}" readonly="readonly">
 			<label>Nome</label>
-			<input name="nome">
+			<input name="nome" th:field="*{nome}">
 			<label>Sobrenome</label>
-			<input name="sobrenome">
+			<input name="sobrenome" th:field="*{sobrenome}">
 			<label>Idade</label>
-			<input name="idade" type="number">
-			<input type="submit" value="Salvar">	
+			<input name="idade" type="number" th:field="*{idade}">
+			<button class="btn waves-effect waves-light" type="submit" name="action">Salvar</button>
 		</form>
-		
-		<a href="/pessoas">Listar Pessoas</a>
+
+		<a class="waves-effect waves-light grey lighten-1 btn" href="/pessoas">Listar Pessoas</a>
 		
 		
 		<table>
@@ -25,9 +34,13 @@
 				<td th:text = "${pessoa.id}"></td>
 				<td th:text = "${pessoa.nome}"></td>
 				<td th:text = "${pessoa.sobrenome}"></td>
+				<td> <a th:href="@{/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}"> Editar </a> </td>
 			</tr>
 		
 		</table>
 		
+		
+	  <!--JavaScript at end of body for optimized loading-->
+      <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
 	</body>
 </html>

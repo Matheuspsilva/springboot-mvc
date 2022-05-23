@@ -18,4 +18,5 @@ public class SpringbootMvcApplication {
 		SpringApplication.run(SpringbootMvcApplication.class, args);
 	}
 
+
 }
