@@ -25,9 +25,20 @@
 			<input name="idade" type="number" th:field="*{idade}">
 			<button class="btn waves-effect waves-light" type="submit" name="action">Salvar</button>
 		</form>
+		
+		<br/>
+		<br/>
 
 		<a class="waves-effect waves-light grey lighten-1 btn" href="/pessoas">Listar Pessoas</a>
 		
+		<br/>
+		<br/>
+		
+		<form action="pesquisarpessoa" method="POST">
+			<label>Pesquisa por nome: </label>
+			<input name="nomepesquisa"></input>
+			<button class="btn waves-effect waves-light" type="submit" name="action">Buscar</button>
+		</form>
 		
 		<table>
 			<tr th:each = "pessoa : ${pessoas}">
@@ -35,6 +46,7 @@
 				<td th:text = "${pessoa.nome}"></td>
 				<td th:text = "${pessoa.sobrenome}"></td>
 				<td> <a th:href="@{/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}"> Editar </a> </td>
+				<td> <a th:href="@{/excluirpessoa/{idpessoa}(idpessoa=${pessoa.id})}"> Excluir </a> </td>
 			</tr>
 		
 		</table>
