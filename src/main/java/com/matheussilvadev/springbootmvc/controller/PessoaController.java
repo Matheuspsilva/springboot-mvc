@@ -97,6 +97,7 @@ public class PessoaController {
 		Optional<Pessoa> pessoa = pessoaRepository.findById(idpessoa);
 		ModelAndView modelAndView = new ModelAndView("cadastro/telefones");
 		
+		modelAndView.addObject("telefones", telefoneRepository.findTelefoneByUserId(idpessoa));
 		modelAndView.addObject("pessoaobj", pessoa.get());
 		
 		return modelAndView;
@@ -118,13 +119,15 @@ public class PessoaController {
 	@PostMapping("**/addfonePessoa/{pessoaid}")
 	public ModelAndView addFonePessoa(Telefone telefone, @PathVariable("pessoaid") Long pessoaid) {
 		
-		Optional<Pessoa> pessoa = pessoaRepository.findById(pessoaid);
-		telefone.setPessoa(pessoa.get());
-		
+		Pessoa pessoa = pessoaRepository.findById(pessoaid).get();
+		telefone.setPessoa(pessoa);
 		telefoneRepository.save(telefone);
 		
 		ModelAndView modelAndView = new ModelAndView("cadastro/telefones");
-		modelAndView.addObject("pessoaobj", pessoa.get());
+		modelAndView.addObject("pessoaobj", pessoa);
+		
+		modelAndView.addObject("telefones", telefoneRepository.findTelefoneByUser(pessoa));
+		
 		
 		return modelAndView;
 		
