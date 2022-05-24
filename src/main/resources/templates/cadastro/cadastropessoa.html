@@ -19,7 +19,7 @@
 
 	<div class="row">
 		<h1 class="col s10 offset-s1">Cadastro Pessoa</h1>
-		<form action="pessoa" method="POST" th:object="${pessoaobj}" id="formpessoa" class="col s10 offset-s1">
+		<form action="/pessoa" method="POST" th:object="${pessoaobj}" id="formpessoa" class="col s10 offset-s1">
 
 			<div class="row">
 				<div class="input-field col s3">
@@ -54,7 +54,7 @@
 	</div>
 
 	<div class="row">
-		<form action="pesquisarpessoa" method="POST" class="col s10 offset-s1">
+		<form action="/pesquisarpessoa" method="POST" class="col s10 offset-s1">
 			<label>Pesquisa por nome: </label>
 			<input name="nomepesquisa"></input>
 			<button class="btn waves-effect waves-light" type="submit" name="action">Buscar</button>
@@ -76,7 +76,7 @@
 			</thead>
 			<tr th:each="pessoa : ${pessoas}">
 				<td th:text="${pessoa.id}"></td>
-				<td th:text="${pessoa.nome}"></td>
+				<td><a th:href="@{/telefones/{idpessoa}(idpessoa=${pessoa.id})}"><span th:text="${pessoa.nome}"></span></a></td>
 				<td th:text="${pessoa.sobrenome}"></td>
 				<td th:text="${pessoa.idade}"></td>
 				<td> <a th:href="@{/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}"> Editar </a> </td>
