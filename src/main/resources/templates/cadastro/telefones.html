@@ -18,7 +18,7 @@
 	<div class="row">
 		<div class="col s10 offset-s1">
 			<h3>Spring Boot + Thymeleaf + Material Design Lite</h3><br />
-			<h5>Cadastro de Telefones</h5>
+			<h5>Cadastro de Pessoas</h5>
 
 			<a class="waves-effect waves-light btn" href="/cadastropessoa">Cad. Pessoa</a>
 
@@ -63,15 +63,13 @@
 						<th>ID</th>
 						<th>Tipo</th>
 						<th>Número</th>
-						<th>Excluir</th>
 					</tr>
 				</thead>
 				<tr th:each="telefone : ${telefones}">
 					<td th:text="${telefone.id}"></td>
+
 					<td th:text="${telefone.tipo}"></td>
 					<td th:text="${telefone.numero}"></td>
-					<td> <a th:href="@{/excluirtelefone/{idtelefone}(idtelefone=${telefone.id})}"> Excluir </a> </td>
-					
 
 				</tr>
 
