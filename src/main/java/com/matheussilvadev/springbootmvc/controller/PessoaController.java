@@ -145,6 +145,29 @@ public class PessoaController {
 	public ModelAndView addFonePessoa(Telefone telefone, @PathVariable("pessoaid") Long pessoaid) {
 		
 		Pessoa pessoa = pessoaRepository.findById(pessoaid).get();
+		//Se o telefone for nulo o java não realizara a segunda validação, evitando erro de NullPointer
+		//telefone.getNumero() != null && telefone.getNumero().isEmpty() 
+		if(telefone != null && telefone.getNumero().isEmpty() || telefone.getTipo().isEmpty()) {
+			
+			ModelAndView modelAndView = new ModelAndView("cadastro/telefones");
+			modelAndView.addObject("pessoaobj", pessoa);
+			modelAndView.addObject("telefones", telefoneRepository.findTelefoneByUser(pessoa));
+			
+			List<String> msg = new ArrayList<String>();
+			
+			if(telefone.getNumero().isEmpty()) {
+				msg.add("O Número deve ser informado");
+			}
+			
+			if(telefone.getTipo().isEmpty()) {
+				msg.add("O tipo deve ser informado");
+			}
+			
+			modelAndView.addObject("msg", msg);
+			return modelAndView;
+			
+		}
+		
 		telefone.setPessoa(pessoa);
 		telefoneRepository.save(telefone);
 		
