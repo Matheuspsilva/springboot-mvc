@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -28,9 +29,9 @@ public class WebConfigSecurity extends  WebSecurityConfigurerAdapter{
 	@Override //Cria autenticação do usuário com banco de dados ou em memória
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication()
-		.passwordEncoder(NoOpPasswordEncoder.getInstance())// Senha em texto puro
+		.passwordEncoder(new BCryptPasswordEncoder())// Senha em texto puro
 		.withUser("Matheus")
-		.password("123")
+		.password("$2a$10$MFKOCoaiPrFGB/caDOun2OLQHE7cYNwhFunD0DlDR0Yfo3.dBZ.fa")//1234
 		.roles("ADMIN");
 	}
 	
