@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 	<!--Import Google Icon Font-->
@@ -70,7 +70,7 @@
 			</div>
 
 			<div class="row">
-				<table class=" striped">
+				<table class=" striped" sec:authorize="hasRole('ROLE_ADMIN')">
 					<thead>
 						<tr>
 							<th>ID</th>
