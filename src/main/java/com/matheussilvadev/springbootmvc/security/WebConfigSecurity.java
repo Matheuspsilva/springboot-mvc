@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 @Configuration
 @EnableWebSecurity
@@ -24,10 +25,14 @@ public class WebConfigSecurity extends  WebSecurityConfigurerAdapter{
 		http.csrf().disable() //Desativa configurações padrões de memória.
 		.authorizeRequests() //Permitir/Restringir acessos
 		.antMatchers(HttpMethod.GET, "/").permitAll() //Permitindo acesso à página inicial
+		.antMatchers("/materialize/**").permitAll()
 		.antMatchers(HttpMethod.GET, "/cadastropessoa").hasAnyRole("ADMIN", "GERENTE") //Permitindo acesso à cadastro de pessoas somente para ROLE_ADMIN
 		.anyRequest().authenticated()
 		.and().formLogin().permitAll() // Permitindo qualquer usuário acessar formulário de login
-		.and().logout()//Mapeia url de logout e invalida usuário autenticado
+		.loginPage("/login")
+		.defaultSuccessUrl("/cadastropessoa")
+		.failureUrl("/login?error=true")
+		.and().logout().logoutSuccessUrl("/login")//Mapeia url de logout e invalida usuário autenticado
 		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 	}
 	
@@ -40,9 +45,16 @@ public class WebConfigSecurity extends  WebSecurityConfigurerAdapter{
 //		.roles("ADMIN");
 	}
 	
-	@Override //Ignora URL's específicas
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/materialize/**");
+//	@Override //Ignora URL's específicas
+//	public void configure(WebSecurity web) throws Exception {
+//		web.ignoring().antMatchers("/materialize/**");
+//	}
+	
+	
+	@Override
+	public void configure(WebSecurity webSecurity) throws Exception {
+	    webSecurity.ignoring().antMatchers("/static/**");
 	}
 	
+	 
 }
