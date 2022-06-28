@@ -49,6 +49,8 @@ public class PessoaController {
 	@RequestMapping(method = RequestMethod.POST, value = "**/pessoa")
 	public ModelAndView  salvar(@Valid Pessoa pessoa, BindingResult bindingResult) {
 		
+		pessoa.setTelefones(telefoneRepository.findTelefoneByUserId(pessoa.getId()));
+		
 		System.out.println(bindingResult.hasErrors());
 		
 		if(bindingResult.hasErrors()) {
