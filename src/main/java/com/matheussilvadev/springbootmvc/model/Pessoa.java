@@ -52,6 +52,8 @@ public class Pessoa implements Serializable {
 	
 	private String  ibge;
 	
+	private String sexopessoa;
+	
 	
 	public void setIdade(int idade) {
 		this.idade = idade;
@@ -139,6 +141,14 @@ public class Pessoa implements Serializable {
 
 	public void setIbge(String ibge) {
 		this.ibge = ibge;
+	}
+	
+	public String getSexopessoa() {
+		return sexopessoa;
+	}
+	
+	public void setSexopessoa(String sexopessoa) {
+		this.sexopessoa = sexopessoa;
 	}
 
 }
