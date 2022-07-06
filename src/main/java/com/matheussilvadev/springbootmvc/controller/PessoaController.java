@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class PessoaController {
 	
 	@Autowired
 	private TelefoneRepository telefoneRepository;
+	
+	@Autowired
+	private ReportUtil reportUtil;
 
 	//Página de cadastro
 	@RequestMapping(method = RequestMethod.GET, value = "/cadastropessoa")
@@ -147,6 +152,48 @@ public class PessoaController {
 		modelAndView.addObject("pessoaobj", new Pessoa());
 		
 		return modelAndView;
+		
+	}
+	
+
+	@GetMapping("**/pesquisarpessoa")
+	public void imprimePdf(@RequestParam("nomepesquisa") String nomepesquisa,
+			               @RequestParam("pesquisasexo") String pesquisasexo,
+			               HttpServletRequest request,
+			               HttpServletResponse response) throws Exception
+	{
+		List<Pessoa> pessoas = new ArrayList<Pessoa>();
+		
+		if(pesquisasexo != null && !pesquisasexo.isEmpty() && nomepesquisa != null && !nomepesquisa.isEmpty()) {//Busca por nome e sexo
+			pessoas = pessoaRepository.findPessoaByNameSexo(nomepesquisa, pesquisasexo);
+		}else if(nomepesquisa != null && !nomepesquisa.isEmpty()) {//Busca por nome 
+			pessoas = pessoaRepository.findPessoaByName(nomepesquisa);
+		}else if(pesquisasexo != null && !pesquisasexo.isEmpty()) {//Busca por nome 
+			pessoas = pessoaRepository.findPessoaBySexo(pesquisasexo);
+		}else {//Busca todos
+			Iterable<Pessoa> iterator = pessoaRepository.findAll();
+			for (Pessoa pessoa : iterator) {
+				pessoas.add(pessoa);
+			}
+		}
+		
+		//Chama serviço que gera relatório
+		byte[] pdf = reportUtil.geraRelatorioPDF(pessoas, "pessoa", request.getServletContext());
+		
+		//Tamanho da resposta
+		response.setContentLength(pdf.length);
+		
+		//Define tipo de arquivo
+		response.setContentType("application/octet-stream");
+		
+		//Definir cabeçalho da resposta
+		String headerKey = "Content-Disposition";
+		String headerValue  = String.format("attachment; filename=\"%s\"", "relatorio-pdf");
+		response.setHeader(headerKey, headerValue);
+		
+		//Finaliza a resposta pro navegador
+		response.getOutputStream().write(pdf);
+		
 		
 	}
 	
