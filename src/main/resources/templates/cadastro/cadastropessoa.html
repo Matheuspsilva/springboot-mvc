@@ -39,9 +39,15 @@
 						<label for="id" class="active">ID</label>
 						<input name="id" th:field="*{id}" readonly="readonly" id="id">
 					</div>
-					<div class="input-field col s9">
+					<div class="input-field col s6">
 						<label for="nome" class="active">Nome</label>
-						<input name="nome" placeholder="Nome" th:field="*{nome}" id="nome"
+						<input name="nome" placeholder="Nome" th:field="*{nome}" id="nome" class="validate">
+					</div>
+					
+					
+					<div class="input-field col s3">
+						<label for="sobrenome" class="active">Sobrenome</label>
+						<input name="sobrenome" placeholder="Sobrenome" th:field="*{sobrenome}" id="sobrenome"
 							class="validate">
 					</div>
 				</div>
@@ -52,7 +58,7 @@
 						<label for="idade" class="active">Idade</label>
 						<input name="idade" type="number" th:field="*{idade}" id="idade" class="validate">
 					</div>
-
+					
 					<div class="input-field col s3">
 						<label for="sexopessoa" class="active">Sexo</label>
 						<select id="sexopessoa" name="sexopessoa" class="browser-default" th:field="*{sexopessoa}">
@@ -60,13 +66,24 @@
 							<option value="FEMININO" th:text="Feminino"></option>
 						</select>
 					</div>
-					
 
-					<div class="input-field col s6">
-						<label for="sobrenome" class="active">Sobrenome</label>
-						<input name="sobrenome" placeholder="Sobrenome" th:field="*{sobrenome}"
-							id="sobrenome" class="validate">
+					<div class="input-field col s3">
+						<label for="profissao" class="active">Profissao</label>
+						<select id="profissao" name="profissao" class="browser-default" th:field="*{profissao}">
+							<option th:each="profissao : ${profissoes}" th:value="${profissao.id}" th:text="${profissao.nome}"></option>
+						</select>
 					</div>
+					
+					<div class="input-field col s3">
+						<label for="cargo" class="active">Profissao</label>
+						<select id="cargo" name="profissao" class="browser-default" th:field="*{cargo}">
+							<option th:each="c : ${T(com.matheussilvadev.springbootmvc.model.Cargo).values()}" th:value="${c}" th:text="${c.name}"></option>
+						</select>
+					</div>
+
+
+
+
 
 
 				</div>
@@ -116,8 +133,8 @@
 					onclick="document.getElementById('formpessoa').reset();">Novo</button>
 			</form>
 
-            <fieldset style="margin-top: 20px; margin-bottom: 20px;">
-            	<legend>Campos de pesquisa</legend>
+			<fieldset style="margin-top: 20px; margin-bottom: 20px;">
+				<legend>Campos de pesquisa</legend>
 				<div class="row">
 					<form action="/pesquisarpessoa" id="pesquisarpessoa" method="POST" style="margin-left: 20px;">
 						<div class="row">
@@ -135,14 +152,17 @@
 							</div>
 						</div>
 						<div class="row">
-							<button class="btn waves-effect waves-light" type="submit"  onclick="document.getElementById('pesquisarpessoa').method='post'"  name="action">Buscar</button>
-							<button class="btn waves-effect waves-light" onclick="document.getElementById('pesquisarpessoa').method='get'" >Gerar PDF</button>
+							<button class="btn waves-effect waves-light" type="submit"
+								onclick="document.getElementById('pesquisarpessoa').method='post'"
+								name="action">Buscar</button>
+							<button class="btn waves-effect waves-light"
+								onclick="document.getElementById('pesquisarpessoa').method='get'">Gerar PDF</button>
 							<a class="waves-effect waves-light grey lighten-1 btn" href="/pessoas">Listar Pessoas</a>
 						</div>
 					</form>
 				</div>
 			</fieldset>
-	
+
 			<div class="row">
 				<table class=" striped" sec:authorize="hasRole('ROLE_ADMIN')">
 					<thead>

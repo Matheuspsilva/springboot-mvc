@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.matheussilvadev.springbootmvc.model.Pessoa;
 import com.matheussilvadev.springbootmvc.model.Telefone;
 import com.matheussilvadev.springbootmvc.repository.PessoaRepository;
+import com.matheussilvadev.springbootmvc.repository.ProfissaoRepository;
 import com.matheussilvadev.springbootmvc.repository.TelefoneRepository;
 
 @Controller
@@ -30,6 +31,9 @@ public class PessoaController {
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	@Autowired
+	private ProfissaoRepository profissaoRepository;
 	
 	@Autowired
 	private TelefoneRepository telefoneRepository;
@@ -46,6 +50,7 @@ public class PessoaController {
 		
 		Iterable<Pessoa> pessoasIt = pessoaRepository.findAll();
 		modelAndView.addObject("pessoas", pessoasIt);
+		modelAndView.addObject("profissoes", profissaoRepository.findAll());
 		
 		return modelAndView;
 	}
@@ -70,6 +75,7 @@ public class PessoaController {
 			}
 			
 			modelAndView.addObject("msg", msg);
+			modelAndView.addObject("profissoes", profissaoRepository.findAll());
 			
 			return modelAndView;
 		}
@@ -103,6 +109,7 @@ public class PessoaController {
 		ModelAndView modelAndView = new ModelAndView("cadastro/cadastropessoa");
 		
 		modelAndView.addObject("pessoaobj", pessoa.get());
+		modelAndView.addObject("profissoes", profissaoRepository.findAll());
 		
 		return modelAndView;
 		
